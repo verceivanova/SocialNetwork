@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "834878839078",
+    "firebase_url": "https://poster-15e1c.firebaseio.com",
+    "project_id": "poster-15e1c",
+    "storage_bucket": "poster-15e1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834878839078:android:12f94fdac24f8986",
+        "android_client_info": {
+          "package_name": "com.example.verica.socialnetwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834878839078-4iuvfvl99umoonsgbnufbb895dvisgpr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.verica.socialnetwork",
+            "certificate_hash": "1fda5bbb3a501345e53dc3ddefe7af239a3a83ea"
+          }
+        },
+        {
+          "client_id": "834878839078-evg9l5oaao2rqtcsm2a6gvr4idl19k03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRV9qEkidWiQXeD-kBZMovUvl6vfVDPJA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834878839078-evg9l5oaao2rqtcsm2a6gvr4idl19k03.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
