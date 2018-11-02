@@ -17,6 +17,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.verica.socialnetwork.Models.UserModel;
+import com.example.verica.socialnetwork.Utils.NotificationAsync;
+import com.example.verica.socialnetwork.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,7 +57,7 @@ public class ChatActivity extends AppCompatActivity
     private DatabaseReference RootRef;
     private FirebaseAuth mAuth;
 
-
+    UserModel model;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -68,7 +71,7 @@ public class ChatActivity extends AppCompatActivity
 
 
 
-
+        getUserObjectFromDb();
 
         InitializeFields();
         DisplayReceiverInfo();
@@ -82,6 +85,25 @@ public class ChatActivity extends AppCompatActivity
         });
 
         FetchMessages();
+    }
+
+    private void getUserObjectFromDb() {
+        RootRef.child("Users").child(messageReceiverID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                     model=dataSnapshot.getValue(UserModel.class);
+                    if(model!=null){
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void FetchMessages()
@@ -126,7 +148,9 @@ public class ChatActivity extends AppCompatActivity
 
     private void SendMessage()
     {
-        String messageText=userMessageInput.getText().toString();
+
+
+        final String messageText=userMessageInput.getText().toString();
         if(TextUtils.isEmpty(messageText))
         {
             Toast.makeText(this, "Please type a message first...",Toast.LENGTH_SHORT).show();
@@ -166,6 +190,11 @@ public class ChatActivity extends AppCompatActivity
                     {
                         if (task.isSuccessful())
                         {
+                            NotificationAsync notificationAsync = new NotificationAsync(ChatActivity.this);
+                            String NotificationTitle = "New message from " + SharedPrefs.getFullName();
+                            String NotificationMessage = "Message: "+messageText ;
+                            notificationAsync.execute("ali", model.getFcmKey(),
+                                    NotificationTitle, NotificationMessage, "Chat",messageSenderID,SharedPrefs.getFullName()+" ");
                           Toast.makeText(ChatActivity.this,"Message send Successfully",Toast.LENGTH_SHORT).show();
                             userMessageInput.setText("");
                         }

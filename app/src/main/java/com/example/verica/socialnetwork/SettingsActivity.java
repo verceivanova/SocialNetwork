@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.verica.socialnetwork.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -278,7 +279,10 @@ public class SettingsActivity extends AppCompatActivity
         userMap.put("dob",dob);
         userMap.put("country",country);
         userMap.put("gender",gender);
+        userMap.put("fcmKey", SharedPrefs.getFcmKey());
         userMap.put("relationshipstatus",relation);
+
+        SharedPrefs.setUsername(username);
 
         SettingsUserRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
             @Override

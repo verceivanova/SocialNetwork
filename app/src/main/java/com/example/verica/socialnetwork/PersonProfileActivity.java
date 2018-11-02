@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.verica.socialnetwork.Models.UserModel;
+import com.example.verica.socialnetwork.Utils.NotificationAsync;
+import com.example.verica.socialnetwork.Utils.SharedPrefs;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +34,7 @@ public class PersonProfileActivity extends AppCompatActivity
 
     private DatabaseReference FriendRequestRef, UsersRef,FriendsRef;
     private FirebaseAuth mAuth;
+    UserModel model;
 
     private String senderUserId, receiverUserId, CURRENT_STATE, saveCurrentDate;
 
@@ -48,6 +52,7 @@ public class PersonProfileActivity extends AppCompatActivity
         FriendsRef=FirebaseDatabase.getInstance().getReference().child("Friends");
 
         IntializeFields();
+        getUserObjectFromDb();
 
         UsersRef.child(receiverUserId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -138,7 +143,12 @@ public class PersonProfileActivity extends AppCompatActivity
                     public void onComplete(@NonNull Task<Void> task)
                     {
                         if(task.isSuccessful())
-                        {
+                        { NotificationAsync notificationAsync = new NotificationAsync(PersonProfileActivity.this);
+                            String NotificationTitle = SharedPrefs.getFullName()+" unfriended you";
+                            String NotificationMessage = "" ;
+                            notificationAsync.execute("ali", model.getFcmKey(),
+                                    NotificationTitle, NotificationMessage, "Request",senderUserId,SharedPrefs.getFullName()+" ");
+
                             FriendsRef.child(receiverUserId).child(senderUserId)
                                     .removeValue()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -163,7 +173,24 @@ public class PersonProfileActivity extends AppCompatActivity
 
 
     }
+    private void getUserObjectFromDb() {
+        UsersRef.child(receiverUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    model=dataSnapshot.getValue(UserModel.class);
+                    if(model!=null){
 
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
     private void AcceptFriendRequest()
     {
         Calendar calFordDate = Calendar.getInstance();
@@ -177,6 +204,12 @@ public class PersonProfileActivity extends AppCompatActivity
                     {
                         if(task.isSuccessful())
                         {
+                            NotificationAsync notificationAsync = new NotificationAsync(PersonProfileActivity.this);
+                            String NotificationTitle = SharedPrefs.getFullName()+" accepted your friend request";
+                            String NotificationMessage = "" ;
+                            notificationAsync.execute("ali", model.getFcmKey(),
+                                    NotificationTitle, NotificationMessage, "Request",senderUserId,SharedPrefs.getFullName()+" ");
+
                             FriendsRef.child(receiverUserId).child(senderUserId).child("date").setValue(saveCurrentDate)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -200,6 +233,7 @@ public class PersonProfileActivity extends AppCompatActivity
                                                                                 {
                                                                                     if(task.isSuccessful())
                                                                                     {
+
                                                                                         SendFirendRequestbutton.setEnabled(true);
                                                                                         CURRENT_STATE="friends";
                                                                                         SendFirendRequestbutton.setText("Unfriend this Person");
@@ -236,6 +270,12 @@ public class PersonProfileActivity extends AppCompatActivity
                     {
                         if(task.isSuccessful())
                         {
+                            NotificationAsync notificationAsync = new NotificationAsync(PersonProfileActivity.this);
+                            String NotificationTitle = SharedPrefs.getFullName()+" did not accepted your friend request";
+                            String NotificationMessage = "" ;
+                            notificationAsync.execute("ali", model.getFcmKey(),
+                                    NotificationTitle, NotificationMessage, "Request",senderUserId,SharedPrefs.getFullName()+" ");
+
                             FriendRequestRef.child(receiverUserId).child(senderUserId)
                                     .removeValue()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -339,6 +379,11 @@ public class PersonProfileActivity extends AppCompatActivity
                  {
                    if(task.isSuccessful())
                    {
+                       NotificationAsync notificationAsync = new NotificationAsync(PersonProfileActivity.this);
+                       String NotificationTitle = "New Friend Request from " + SharedPrefs.getFullName();
+                       String NotificationMessage = "Open app to accept" ;
+                       notificationAsync.execute("ali", model.getFcmKey(),
+                               NotificationTitle, NotificationMessage, "Request",senderUserId,SharedPrefs.getFullName()+" ");
                        FriendRequestRef.child(receiverUserId).child(senderUserId)
                                .child("request_type").setValue("received")
                                .addOnCompleteListener(new OnCompleteListener<Void>() {

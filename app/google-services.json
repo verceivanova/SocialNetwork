@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "834878839078-c0j0rcjgo4q4qn1sk65h8tbhs8vf5hfv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.verica.socialnetwork",
+            "certificate_hash": "6db061e9ddc3e03ba4a4c0f601d2a6c12d00c5c8"
+          }
+        },
+        {
           "client_id": "834878839078-evg9l5oaao2rqtcsm2a6gvr4idl19k03.apps.googleusercontent.com",
           "client_type": 3
         }

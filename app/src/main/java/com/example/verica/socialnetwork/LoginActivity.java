@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.verica.socialnetwork.Utils.SharedPrefs;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -233,6 +234,7 @@ public class LoginActivity extends AppCompatActivity {
                        {
                          if(task.isSuccessful())
                          {
+
                              SendUserToMainActivity();
 
                            Toast.makeText(LoginActivity.this,"you are Logged in successfully",Toast.LENGTH_SHORT).show();
