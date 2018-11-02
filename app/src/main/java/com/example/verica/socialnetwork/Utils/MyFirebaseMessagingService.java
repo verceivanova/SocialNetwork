@@ -87,7 +87,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         else  if(type.equalsIgnoreCase("Request")){
             resultIntent = new Intent(this, PersonProfileActivity.class);
             resultIntent.putExtra("visit_user_id",id);
-            git
+
         }
         else  if(type.equalsIgnoreCase("Like")){
             resultIntent = new Intent(this, ClickPostActivity.class);
